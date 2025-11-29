@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIGITAL SELF CREATOR v1.0 ★ DATA OBFUSCATION TOOL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            image-rendering: pixelated;
+        }
+
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background: #f5f1e8;
+            color: #2d3748;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.8;
+            font-size: 10px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .ascii-border {
+            border: 4px solid #4a5568;
+            padding: 20px;
+            background: #ffffff;
+            box-shadow: 
+                8px 8px 0 #d4cfc4,
+                inset 0 0 0 2px #e2e8f0;
+            position: relative;
+        }
+
+        .ascii-border::before {
+            content: '▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #f5f1e8;
+            padding: 0 10px;
+            color: #805ad5;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #2d3748;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 0 #d4cfc4;
+        }
+
+        .blink {
+            animation: blink 1s step-start infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        .tagline {
+            font-size: 8px;
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+
+        .warning-banner {
+            background: repeating-linear-gradient(
+                45deg,
+                #fed7d7,
+                #fed7d7 10px,
+                #feebc8 10px,
+                #feebc8 20px
+            );
+            color: #742a2a;
+            padding: 10px;
+            text-align: center;
+            font-size: 8px;
+            margin-bottom: 20px;
+            border: 2px solid #c53030;
+        }
+
+        .pixel-box {
+            background: #ffffff;
+            border: 3px solid #4a5568;
+            padding: 15px;
+            margin-bottom: 20px;
+            position: relative;
+            box-shadow: 6px 6px 0px #cbd5e0;
+        }
+
+        .pixel-box.blue {
+            border-color: #3182ce;
+            box-shadow: 6px 6px 0px #bee3f8;
+        }
+
+        .pixel-box.purple {
+            border-color: #805ad5;
+            box-shadow: 6px 6px 0px #d6bcfa;
+        }
+
+        .pixel-box.teal {
+            border-color: #319795;
+            box-shadow: 6px 6px 0px #b2f5ea;
+        }
+
+        .status-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            background: #f7fafc;
+            border: 2px solid #4a5568;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 6px;
+            color: #718096;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 12px;
+            color: #2d3748;
+        }
+
+        .pixel-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #4a5568;
+            margin-right: 5px;
+            position: relative;
+            background: #cbd5e0;
+        }
+
+        .pixel-indicator.active {
+            background: #48bb78;
+            border-color: #2f855a;
+            animation: pulse-pixel 1s infinite;
+        }
+
+        @keyframes pulse-pixel {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .section-header {
+            background: #4a5568;
+            color: #ffffff;
+            padding: 10px;
+            font-size: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        .personas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .persona-card {
+            background: #f7fafc;
+            border: 3px solid #a0aec0;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .persona-card:hover {
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px #bee3f8;
+            transform: translate(-2px, -2px);
+        }
+
+        .persona-card.selected {
+            border-color: #805ad5;
+            background: #faf5ff;
+            box-shadow: 0 0 0 3px #d6bcfa;
+        }
+
+        .persona-card.selected::before {
+            content: '>>SELECTED<<';
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            background: #805ad5;
+            color: #ffffff;
+            padding: 2px 5px;
+            font-size: 6px;
+        }
+
+        .persona-icon {
+            font-size: 32px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .persona-name {
+            font-size: 10px;
+            color: #2d3748;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .persona-description {
+            font-size: 6px;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        .control-panel {
+            background: #f7fafc;
+            border: 3px solid #4a5568;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-label {
+            font-size: 8px;
+            color: #2d3748;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        input[type="range"] {
+            flex: 1;
+            height: 20px;
+            background: #e2e8f0;
+            border: 2px solid #4a5568;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #4299e1;
+            cursor: pointer;
+            border: 2px solid #2c5282;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #4299e1;
+            cursor: pointer;
+            border: 2px solid #2c5282;
+        }
+
+        .slider-value {
+            min-width: 50px;
+            text-align: center;
+            font-size: 10px;
+            color: #2d3748;
+            background: #ffffff;
+            border: 2px solid #4a5568;
+            padding: 5px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+            border: 3px solid;
+            cursor: pointer;
+            background: #ffffff;
+            transition: all 0.2s;
+            position: relative;
+            text-transform: uppercase;
+        }
+
+        .btn-start {
+            color: #2f855a;
+            border-color: #2f855a;
+        }
+
+        .btn-start:hover:not(:disabled) {
+            background: #48bb78;
+            color: #ffffff;
+            box-shadow: 4px 4px 0 #2f855a;
+            transform: translate(-2px, -2px);
+        }
+
+        .btn-start:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .btn-stop {
+            color: #c53030;
+            border-color: #c53030;
+        }
+
+        .btn-stop:hover:not(:disabled) {
+            background: #f56565;
+            color: #ffffff;
+            box-shadow: 4px 4px 0 #c53030;
+            transform: translate(-2px, -2px);
+        }
+
+        .btn-stop:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .search-log {
+            background: #f7fafc;
+            border: 3px solid #4a5568;
+            padding: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-size: 7px;
+        }
+
+        .search-log::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .search-log::-webkit-scrollbar-track {
+            background: #e2e8f0;
+            border: 1px solid #4a5568;
+        }
+
+        .search-log::-webkit-scrollbar-thumb {
+            background: #4a5568;
+            border: 1px solid #2d3748;
+        }
+
+        .search-entry {
+            padding: 8px;
+            margin-bottom: 5px;
+            border-left: 3px solid #4299e1;
+            background: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-query {
+            color: #2d3748;
+            flex: 1;
+        }
+
+        .search-time {
+            color: #718096;
+            white-space: nowrap;
+        }
+
+        .marquee {
+            background: #805ad5;
+            color: #ffffff;
+            padding: 8px;
+            margin: 20px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            font-size: 8px;
+        }
+
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 15s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .footer {
+            text-align: center;
+            color: #718096;
+            margin-top: 30px;
+            font-size: 6px;
+            padding: 20px;
+            border-top: 2px dashed #cbd5e0;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                font-size: 8px;
+            }
+            
+            h1 {
+                font-size: 12px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ascii-border">
+            <header>
+                <h1>★ DIGITAL SELF CREATOR v1.0 ★</h1>
+                <p class="tagline">[ DATA OBFUSCATION • IDENTITY MASKING • ALGORITHM CONFUSION ]</p>
+            </header>
+
+            <div class="warning-banner blink">
+                ⚠ EXPERIMENTAL SOFTWARE • USE AT OWN RISK • KEEP TAB OPEN FOR OPERATION ⚠
+            </div>
+
+            <div class="marquee">
+                <div class="marquee-content">
+                    ★★★ MASTERS THESIS PROJECT ★★★ EXPLORING DATA PRIVACY AND ALGORITHMIC RESISTANCE ★★★ MADE WITH &lt;3 FOR ACADEMIC RESEARCH ★★★
+                </div>
+            </div>
+
+            <div class="pixel-box blue">
+                <div class="status-bar">
+                    <div class="stat-item">
+                        <div class="stat-label">STATUS</div>
+                        <div class="stat-value">
+                            <span class="pixel-indicator" id="statusIndicator"></span>
+                            <span id="statusText">OFFLINE</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">SEARCHES</div>
+                        <div class="stat-value" id="searchCount">0000</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">UPTIME</div>
+                        <div class="stat-value" id="timeRunning">00:00:00</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pixel-box purple">
+                <div class="section-header">█ STEP 1: SELECT PERSONA █</div>
+                <div class="personas-grid" id="personasGrid"></div>
+            </div>
+
+            <div class="pixel-box teal">
+                <div class="section-header">█ STEP 2: CONFIGURE PARAMETERS █</div>
+                <div class="control-panel">
+                    <div class="control-group">
+                        <label class="control-label">▶ SEARCH FREQUENCY (PER HOUR)</label>
+                        <div class="slider-container">
+                            <input type="range" id="frequencySlider" min="1" max="12" value="4" step="1">
+                            <span class="slider-value" id="frequencyValue">04</span>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">▶ TAB DURATION (SECONDS)</label>
+                        <div class="slider-container">
+                            <input type="range" id="durationSlider" min="2" max="10" value="5" step="1">
+                            <span class="slider-value" id="durationValue">05</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-start" id="startBtn" disabled>▶ START</button>
+                <button class="btn-stop" id="stopBtn" disabled>■ STOP</button>
+            </div>
+
+            <div class="pixel-box">
+                <div class="section-header">█ ACTIVITY LOG █</div>
+                <div class="search-log" id="searchLog">
+                    <p style="text-align: center; color: #a0aec0;">[ NO ACTIVITY • SYSTEM IDLE ]</p>
+                </div>
+            </div>
+
+            <div class="footer">
+                <p>═══════════════════════════════════════</p>
+                <p>MADE FOR ACADEMIC RESEARCH • PRIVACY MATTERS</p>
+                <p>© 2024 • ALL WRONGS RESERVED</p>
+                <p>═══════════════════════════════════════</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Persona database
+        const personas = {
+            ultrarunner: {
+                name: "ULTRA RUNNER",
+                icon: "🏃",
+                description: "ENDURANCE ATHLETE • TRAIL OBSESSED • PAIN IS TEMPORARY",
+                searches: [
+                    "ultra marathon training plan 100 miles",
+                    "best trail running shoes 2024",
+                    "how to prevent chafing long distance running",
+                    "nutrition strategy for ultramarathon",
+                    "Western States 100 lottery odds",
+                    "recovery techniques after ultra marathon",
+                    "best running watch for ultra distance",
+                    "altitude training benefits runners",
+                    "how to run downhill without injury",
+                    "ultrarunning gear essentials",
+                    "vert gain training workouts",
+                    "aid station strategy ultra marathon",
+                    "mental toughness ultrarunning",
+                    "barefoot running vs cushioned shoes",
+                    "electrolyte replacement during long runs",
+                    "taper strategy before 100k race",
+                    "ultrarunning podcasts best",
+                    "trail running headlamp reviews",
+                    "how to prevent blisters ultra running",
+                    "cortney dauwalter training philosophy"
+                ]
+            },
+            gorillaenthusiast: {
+                name: "GORILLA ENTHUSIAST",
+                icon: "🦍",
+                description: "PRIMATE EXPERT • CONSERVATION ADVOCATE • APE APPRECIATION",
+                searches: [
+                    "gorilla conservation efforts Africa",
+                    "mountain gorilla population 2024",
+                    "Dian Fossey research legacy",
+                    "difference between gorilla species",
+                    "silverback gorilla behavior patterns",
+                    "gorilla habitat preservation projects",
+                    "how to support gorilla conservation",
+                    "gorilla communication and language",
+                    "best documentaries about gorillas",
+                    "Virunga National Park gorilla tours",
+                    "gorilla diet in the wild",
+                    "infant gorilla development stages",
+                    "gorilla intelligence compared to humans",
+                    "threats to gorilla populations",
+                    "gorilla family structure dynamics",
+                    "Koko the gorilla sign language",
+                    "Rwanda gorilla trekking permits",
+                    "lowland gorilla vs mountain gorilla",
+                    "gorilla strength facts",
+                    "adopt a gorilla charity programs"
+                ]
+            },
+            superrepublican: {
+                name: "SUPER REPUBLICAN",
+                icon: "🇺🇸",
+                description: "CONSERVATIVE VALUES • PATRIOT • TRADITIONAL PRINCIPLES",
+                searches: [
+                    "conservative news sources unbiased",
+                    "second amendment rights protection",
+                    "traditional family values importance",
+                    "free market capitalism benefits",
+                    "border security policy solutions",
+                    "reducing government spending strategies",
+                    "school choice education reform",
+                    "conservative talk radio podcasts",
+                    "pro life movement organizations",
+                    "energy independence domestic oil",
+                    "tax cut economic growth",
+                    "constitutional originalism explained",
+                    "religious freedom protection laws",
+                    "veteran support organizations",
+                    "law and order police support",
+                    "small business tax relief",
+                    "conservative political candidates 2024",
+                    "American exceptionalism history",
+                    "deregulation economic benefits",
+                    "national security priorities"
+                ]
+            },
+            booknerd: {
+                name: "BOOK NERD",
+                icon: "📚",
+                description: "LITERATURE LOVER • ALWAYS READING • LIBRARY REGULAR",
+                searches: [
+                    "best contemporary literary fiction 2024",
+                    "book club discussion questions",
+                    "magical realism authors recommendations",
+                    "independent bookstore near me",
+                    "how to start a book club",
+                    "penguin classics must read list",
+                    "unreliable narrator books recommendations",
+                    "book annotation methods colored tabs",
+                    "debut novels 2024 highly anticipated",
+                    "translated literature recommendations",
+                    "bookshelf organization ideas aesthetic",
+                    "reading journal prompts",
+                    "best book subscription boxes",
+                    "historical fiction world war 2",
+                    "postmodern literature explained",
+                    "how to read more books per year",
+                    "literary magazines accepting submissions",
+                    "banned books worth reading",
+                    "short story collections underrated",
+                    "book recommendations based on favorite authors"
+                ]
+            },
+            homesteader: {
+                name: "HOMESTEADER",
+                icon: "🌿",
+                description: "RURAL DREAMER • DIY EVERYTHING • SIMPLE LIVING ADVOCATE",
+                searches: [
+                    "how to start a backyard garden for beginners",
+                    "sourdough starter recipe no yeast",
+                    "best chicken breeds for eggs",
+                    "cottage aesthetic room decor ideas",
+                    "how to preserve vegetables without canning",
+                    "homesteading for beginners small space",
+                    "knitting patterns free easy",
+                    "mushroom foraging identification guide",
+                    "how to make natural dye from plants",
+                    "beekeeping starter kit essentials",
+                    "vintage cottagecore clothing brands",
+                    "herb garden indoor apartment",
+                    "quilting patterns traditional",
+                    "how to make cheese at home",
+                    "off grid living solar panels",
+                    "wildflower bouquet arrangements",
+                    "embroidery stitches for beginners",
+                    "composting toilet for tiny house",
+                    "bread baking no knead recipe",
+                    "rustic farmhouse kitchen design"
+                ]
+            },
+            cryptobro: {
+                name: "CRYPTO BRO",
+                icon: "₿",
+                description: "BLOCKCHAIN BELIEVER • DEFI DEGEN • DIAMOND HANDS ONLY",
+                searches: [
+                    "bitcoin price prediction 2025",
+                    "best crypto exchange low fees",
+                    "how to stake ethereum for passive income",
+                    "NFT marketplace opensea alternatives",
+                    "solana vs ethereum transaction speed",
+                    "crypto tax reporting software",
+                    "defi yield farming strategies",
+                    "hardware wallet ledger vs trezor",
+                    "blockchain developer roadmap",
+                    "upcoming crypto airdrops 2024",
+                    "layer 2 scaling solutions ethereum",
+                    "how to spot rug pull crypto",
+                    "best crypto portfolio tracker app",
+                    "tokenomics explained beginners",
+                    "web3 job opportunities",
+                    "metamask security best practices",
+                    "altcoin season indicators",
+                    "crypto technical analysis course",
+                    "DAO governance participation",
+                    "meme coin investing strategy"
+                ]
+            }
+        };
+
+        // State
+        let selectedPersona = null;
+        let isRunning = false;
+        let searchInterval = null;
+        let searchCount = 0;
+        let startTime = null;
+        let timerInterval = null;
+        let searchLog = [];
+
+        // DOM Elements
+        const personasGrid = document.getElementById('personasGrid');
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const statusIndicator = document.getElementById('statusIndicator');
+        const statusText = document.getElementById('statusText');
+        const searchCountEl = document.getElementById('searchCount');
+        const timeRunningEl = document.getElementById('timeRunning');
+        const searchLogEl = document.getElementById('searchLog');
+        const frequencySlider = document.getElementById('frequencySlider');
+        const frequencyValue = document.getElementById('frequencyValue');
+        const durationSlider = document.getElementById('durationSlider');
+        const durationValue = document.getElementById('durationValue');
+
+        // Initialize personas
+        function initPersonas() {
+            Object.keys(personas).forEach(key => {
+                const persona = personas[key];
+                const card = document.createElement('div');
+                card.className = 'persona-card';
+                card.dataset.persona = key;
+                card.innerHTML = `
+                    <div class="persona-icon">${persona.icon}</div>
+                    <div class="persona-name">${persona.name}</div>
+                    <div class="persona-description">${persona.description}</div>
+                `;
+                card.addEventListener('click', () => selectPersona(key));
+                personasGrid.appendChild(card);
+            });
+        }
+
+        // Select persona
+        function selectPersona(personaKey) {
+            selectedPersona = personaKey;
+            
+            // Update UI
+            document.querySelectorAll('.persona-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.querySelector(`[data-persona="${personaKey}"]`).classList.add('selected');
+            
+            // Enable start button
+            startBtn.disabled = false;
+        }
+
+        // Update sliders
+        frequencySlider.addEventListener('input', (e) => {
+            frequencyValue.textContent = String(e.target.value).padStart(2, '0');
+        });
+
+        durationSlider.addEventListener('input', (e) => {
+            durationValue.textContent = String(e.target.value).padStart(2, '0');
+        });
+
+        // Perform a search
+        function performSearch() {
+            if (!selectedPersona || !isRunning) return;
+
+            const persona = personas[selectedPersona];
+            const searches = persona.searches;
+            const randomSearch = searches[Math.floor(Math.random() * searches.length)];
+            
+            // Open search in new tab
+            const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(randomSearch)}`;
+            const newTab = window.open(searchUrl, '_blank');
+            
+            // Close tab after duration
+            const duration = parseInt(durationSlider.value) * 1000;
+            setTimeout(() => {
+                if (newTab) newTab.close();
+            }, duration);
+            
+            // Update count and log
+            searchCount++;
+            searchCountEl.textContent = String(searchCount).padStart(4, '0');
+            
+            // Add to log
+            addToLog(randomSearch);
+        }
+
+        // Add search to log
+        function addToLog(query) {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString();
+            
+            searchLog.unshift({ query, time: timeStr });
+            
+            // Keep only last 20
+            if (searchLog.length > 20) {
+                searchLog = searchLog.slice(0, 20);
+            }
+            
+            // Update display
+            updateLogDisplay();
+        }
+
+        // Update log display
+        function updateLogDisplay() {
+            if (searchLog.length === 0) {
+                searchLogEl.innerHTML = '<p style="text-align: center; color: #a0aec0;">[ NO ACTIVITY • SYSTEM IDLE ]</p>';
+                return;
+            }
+            
+            searchLogEl.innerHTML = searchLog.map(entry => `
+                <div class="search-entry">
+                    <span class="search-query">► ${entry.query}</span>
+                    <span class="search-time">[${entry.time}]</span>
+                </div>
+            `).join('');
+        }
+
+        // Update timer
+        function updateTimer() {
+            if (!startTime) return;
+            
+            const elapsed = Date.now() - startTime;
+            const hours = Math.floor(elapsed / 3600000);
+            const minutes = Math.floor((elapsed % 3600000) / 60000);
+            const seconds = Math.floor((elapsed % 60000) / 1000);
+            
+            timeRunningEl.textContent = 
+                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        // Start injection
+        startBtn.addEventListener('click', () => {
+            if (!selectedPersona) return;
+            
+            isRunning = true;
+            startTime = Date.now();
+            
+            // Update UI
+            statusIndicator.classList.add('active');
+            statusText.textContent = 'ONLINE';
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
+            
+            // Calculate interval
+            const searchesPerHour = parseInt(frequencySlider.value);
+            const intervalMs = (60 * 60 * 1000) / searchesPerHour;
+            
+            // Perform first search immediately
+            performSearch();
+            
+            // Set up interval
+            searchInterval = setInterval(performSearch, intervalMs);
+            
+            // Start timer
+            timerInterval = setInterval(updateTimer, 1000);
+            
+            console.log(`[SYSTEM] Started ${personas[selectedPersona].name} persona`);
+        });
+
+        // Stop injection
+        stopBtn.addEventListener('click', () => {
+            isRunning = false;
+            
+            // Clear intervals
+            if (searchInterval) {
+                clearInterval(searchInterval);
+                searchInterval = null;
+            }
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            
+            // Update UI
+            statusIndicator.classList.remove('active');
+            statusText.textContent = 'OFFLINE';
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+            
+            console.log('[SYSTEM] Stopped persona injection');
+        });
+
+        // Initialize
+        initPersonas();
+        
+        // Warn on close
+        window.addEventListener('beforeunload', (e) => {
+            if (isRunning) {
+                e.preventDefault();
+                e.returnValue = '[WARNING] System is active. Exit anyway?';
+                return e.returnValue;
+            }
+        });
+    </script>
+</body>
+</html>
